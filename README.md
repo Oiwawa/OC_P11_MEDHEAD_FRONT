@@ -1,75 +1,31 @@
-# Nuxt 3 Minimal Starter
+# Proof of Concept Medhead
 
-Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+Ce front-end doit être lancé après l'application Spring gérant le back-end.
+Démonstration du front-end de la PoC : https://www.dailymotion.com/video/kvIP7ckCO6bVGQBdVyS
+
+[Documentation Nuxt 3](https://nuxt.com/docs/getting-started/introduction)
+
+## Configuration
+- Nuxt 3
+- Nuxt UI
+- Tailwind
+- yarn
 
 ## Setup
 
-Make sure to install the dependencies:
+Installation des dépendances
 
 ```bash
-# npm
-npm install
-
-# pnpm
-pnpm install
-
 # yarn
 yarn install
-
-# bun
-bun install
 ```
 
 ## Development Server
 
-Start the development server on `http://localhost:3000`:
+Démarrer le serveur de développement :  `http://localhost:3000`:
 
 ```bash
-# npm
-npm run dev
-
-# pnpm
-pnpm run dev
-
 # yarn
 yarn dev
-
-# bun
-bun run dev
 ```
 
-## Production
-
-Build the application for production:
-
-```bash
-# npm
-npm run build
-
-# pnpm
-pnpm run build
-
-# yarn
-yarn build
-
-# bun
-bun run build
-```
-
-Locally preview production build:
-
-```bash
-# npm
-npm run preview
-
-# pnpm
-pnpm run preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
-```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.

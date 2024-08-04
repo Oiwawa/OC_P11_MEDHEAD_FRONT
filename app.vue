@@ -12,10 +12,11 @@ const userAddress = ref('');
 const distance = ref(50);
 
 // Requête de toutes les spécialités pour le menu
-const { data: specialities } = await useFetch('http://localhost:9090/hospital/specialities');
+const { data: specialities } = await useFetch('http://localhost:9090/hospital/speciality');
 
 let hospitals = ref(null);
 
+// Fonction de recherhce, ajout des paramètres en fonction des valeurs existantes
 const searchForHospital = async () => {
   const baseUrl = 'http://localhost:9090/hospital/search';
   let queryParams = [];
@@ -42,6 +43,7 @@ const searchForHospital = async () => {
   hospitals.value = data.value;
 };
 
+// Récupération des coordonnées, basé sur l'adresse rentrée par l'utilisateur
 const getCoordinates = async (address) => {
   const apiKey = 'ec307b828a5c4d7fbaea2342992a5196';
   const url = `https://api.opencagedata.com/geocode/v1/json?q=${encodeURIComponent(address)}&key=${apiKey}`;
@@ -79,32 +81,32 @@ const getBedAvailabilityClass = (availableBeds) => {
 
 <template>
   <div class="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-cyan-300 to-violet-400">
-    <h2 class="font-semibold text-4xl my-10">MEDHEAD URGENCY</h2>
+    <h2 class="font-semibold text-4xl my-10">MedHead Emergency Locator</h2>
     <div class="w-full max-w-md p-4 rounded-lg bg-blue-200 shadow-md">
       <UForm :state="search" @submit="searchForHospital">
         <UFormGroup>
           <template #label>
-            <h2 class="text-white text-xl font-semibold mt-5 w-full">Current Location</h2>
+            <h2 class="text-white text-xl font-semibold mt-5 w-full ">Enter your Current Location</h2>
           </template>
-          <UInput v-model="userAddress" icon="i-heroicons-map-pin" class="text-white w-full" size="xl"/>
+          <UInput v-model="userAddress" icon="i-heroicons-map-pin" class="text-white w-full" size="xl" placeholder="Type your address here"/>
         </UFormGroup>
-        <UFormGroup :disabled="!userAddress">
+        <UFormGroup :disabled="!userAddress" v-if="userAddress">
           <template #label>
-            <h2 class="text-white text-xl font-semibold mt-5 mb-2 w-full">Search range (Current location required)</h2>
+            <h2 class="text-white text-xl font-semibold mt-5 mb-2 w-full">Search Range (requires current location)</h2>
           </template>
           <URange v-model="distance" size="xl" color="blue" :disabled="!userAddress"/>
           {{distance}} KM radius
         </UFormGroup>
         <UFormGroup>
           <template #label>
-            <h2 class="text-white text-xl font-semibold mt-5">What kind of treatment is needed?</h2>
+            <h2 class="text-white text-xl font-semibold mt-5">Select required treatment</h2>
           </template>
           <div class="flex items-center space-x-2">
             <USelectMenu
                 searchable
                 searchable-placeholder="Search ..."
                 color="white"
-                placeholder="Select what kind of help you need"
+                placeholder="Choose the type of treatment needed"
                 :options="specialities"
                 v-model="chosenSpeciality"
                 size="xl"
@@ -116,17 +118,17 @@ const getBedAvailabilityClass = (availableBeds) => {
         </UFormGroup>
         <UFormGroup>
           <template #label>
-            <h2 class="text-white text-xl font-semibold mt-5 mb-2 w-full">Search only hospital with beds available</h2>
+            <h2 class="text-white text-xl font-semibold mt-5 mb-2 w-full">Only show hospitals with available beds</h2>
           </template>
           <UToggle v-model="availabledBedsOnly" size="xl"/>
         </UFormGroup>
         <div class="flex justify-center mt-4">
-          <UButton color="black" class="text-xl font-semibold uppercase" type="submit">Search</UButton>
+          <UButton color="black" class="text-xl font-semibold uppercase" type="submit">Find Hospitals</UButton>
         </div>
       </UForm>
     </div>
     <div>
-      <h2 class="font-semibold text-2xl"><span>{{ hospitals?.length ?? 0 }}</span> results found</h2>
+      <h2 class="font-semibold text-2xl"><span>{{ hospitals?.length ?? 0 }}</span> Results Found</h2>
     </div>
     <div class="grid grid-cols-3 gap-4 mt-10 mx-4">
       <UCard v-for="hospital in hospitals" :key="hospital.id" class="bg-white dark:bg-white dark:text-black">
