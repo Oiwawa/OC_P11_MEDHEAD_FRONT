@@ -13,7 +13,7 @@ const distance = ref(50);
 
 // Requête de toutes les spécialités pour le menu
 const { data: specialities } = await useFetch('http://localhost:9090/hospital/speciality');
-
+console.log(specialities.value)
 let hospitals = ref(null);
 
 // Fonction de recherhce, ajout des paramètres en fonction des valeurs existantes
@@ -62,7 +62,7 @@ const getCoordinates = async (address) => {
 };
 
 const formatSpecialities = (specialities) => {
-  return specialities.split(',')
+  return specialities.split('/')
       .map(spec => spec.trim())
       .map(spec => spec.charAt(0).toUpperCase() + spec.slice(1))
       .join(' / ');
